@@ -7,9 +7,19 @@ var upLeft={name:"hand-up-left-1",number:1,side:1};
 var bottomRight={name:"hand-bottom-right-1",number:1,side:2};
 var bottomLeft={name:"hand-bottom-left-1",number:1,side:2};
 
+		var player1;
+		var player2;
+
 $( document ).ready(function() {
   $(".hide").hide();
 });
+
+$("#btn2p").click(function(){
+			player1=$("#player1").val();
+			player2=$("#player2").val();
+			
+			$("#announcement").css("visibility","hidden");
+			});
 
 
 $("[data-hand*='hand']" ).draggable({
@@ -19,10 +29,12 @@ $("[data-hand*='hand']" ).draggable({
 	});
 	
 $("[data-hand*='0']").draggable("disable");
-	
 $( "[data-hand*='hand-up']" ).droppable();
 $( "[data-hand*='hand-bottom']" ).droppable();
 $( "[data-hand*='hand-up']" ).droppable("disable");
+$("[data-hand*='0']").droppable
+({
+	});
 
 $( "[data-hand*='hand']" ).droppable
 ({
@@ -39,7 +51,8 @@ $( "[data-hand*='hand']" ).droppable
 			if(here=="1"&&coming=="3")
 			{
 					upRight=whenDropped(upRight,bottomLeft)
-			}if(here=="2"&&coming=="4")
+			}
+			if(here=="2"&&coming=="4")
 			{
 					upLeft=whenDropped(upLeft,bottomRight)
 			}if(here=="2"&&coming=="3")
@@ -58,6 +71,46 @@ $( "[data-hand*='hand']" ).droppable
 			{
 					bottomRight=whenDropped(bottomRight,upRight)
 			}
+			
+			if(here=="1"&&coming=="2"||here=="2"&&coming=="1")
+			{
+					if($(ui.draggable).data("hand").search("2")>-1)
+					{
+						$( "[data-hand*='hand-up']" ).fadeOut();
+						$( "[data-hand*='hand-up-right-1']" ).show();
+						$( "[data-hand*='hand-up-left-1']" ).show();
+						upLeft.number=upRight.number=1;
+					
+					}
+					if($(ui.draggable).data("hand").search("4")>-1)
+					{
+						$( "[data-hand*='hand-up']" ).fadeOut();
+						$( "[data-hand*='hand-up-right-2']" ).show();
+						$( "[data-hand*='hand-up-left-2']" ).show();
+						upLeft.number=upRight.number=2;
+						
+					}
+					
+			if(here=="3"&&coming=="4"||here=="4"&&coming=="3")
+			{
+					if($(ui.draggable).data("hand").search("2")>-1)
+					{
+						$( "[data-hand*='hand-bottom']" ).fadeOut();
+						$( "[data-hand*='hand-bottom-right-1']" ).show();
+						$( "[data-hand*='hand-bottom-left-1']" ).show();
+						
+						bottomLeft.number=bottomRight.number=1;
+					}
+					if($(ui.draggable).data("hand").search("4")>-1)
+					{
+						$( "[data-hand*='hand-bottom']" ).fadeOut();
+						$( "[data-hand*='hand-bottom-right-2']" ).show();
+						$( "[data-hand*='hand-bottom-left-2']" ).show();
+						bottomLeft.number=bottomRight.number=2;
+						
+					}
+			}
+		}
 		
 			
 			check();
@@ -70,11 +123,13 @@ $( "[data-hand*='hand']" ).droppable
 		{
 			$( "[data-hand*='hand-up']" ).droppable("disable");
 			$( "[data-hand*='hand-bottom']" ).droppable("enable");
+			$( "[data-hand*='0']" ).droppable("enable");
 		}
 		else
 		{
 			$( "[data-hand*='hand-up']" ).droppable("enable");
 			$( "[data-hand*='hand-bottom']" ).droppable("disable");
+			$( "[data-hand*='0']" ).droppable("enable");
 		}
 			var now=reciver.name;
 			
@@ -98,10 +153,15 @@ $( "[data-hand*='hand']" ).droppable
 	function check()
 		{
 			if(upRight.number==0&&upLeft.number==0)
-				{alert("the bottom is the winner");}
+			{$("#annText").html("המשחק נגמר!<br>המנצח הוא "+player2 );
+				$("#announcement").css("visibility","visible");
+			}
 			if(bottomRight.number==0&&bottomLeft.number==0)
-				{alert("the up is the winner");}
+				{$("#annText").html("המשחק נגמר!<br>המנצח הוא "+player1 );
+				$("#announcement").css("visibility","visible");}
 		};
+		
+		
 	
 /*$( "[data-hand*='hand-up-left']" ).droppable
 	({
