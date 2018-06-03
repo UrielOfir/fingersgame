@@ -1,7 +1,4 @@
 
-//$( document ).click(function() {
- // $( "img" ).toggle( "fade" );
-//});
 var upRight={name:"hand-up-right-1",number:1,side:1};
 var upLeft={name:"hand-up-left-1",number:1,side:1};
 var bottomRight={name:"hand-bottom-right-1",number:1,side:2};
@@ -102,77 +99,3 @@ $( "[data-hand*='hand']" ).droppable
 			if(bottomRight.number==0&&bottomLeft.number==0)
 				{alert("the up is the winner");}
 		};
-	
-/*$( "[data-hand*='hand-up-left']" ).droppable
-	({
-		accept: "[data-hand*='hand-bottom']",
-		drop: function(event, ui)
-		{
-			$( "[data-hand*='hand-bottom']" ).droppable("enable");
-			$( "[data-hand*='hand-up']" ).droppable("disable");
-
-			upLeft.number=$(ui.draggable).data("number")+upLeft.number;
-			upLeft.name=upLeft.name.replace(/.$/,upLeft.number);
-			
-			if (upLeft.number>4)
-			{
-				upLeft.number=upLeft.number-5;
-				upLeft.name=upLeft.name.replace(/.$/,upLeft.number);
-			}
-			
-			$(this).fadeOut(function()
-			{
-					$("[data-hand='"+upLeft.name+"']").show();
-			});
-		}
-	});
-	
-$( "[data-hand*='hand-bottom-right']" ).droppable
-	({
-		accept: "[data-hand*='hand-up']",
-		drop: function(event, ui)
-		{
-			$( "[data-hand*='hand-up']" ).droppable("enable");
-			$( "[data-hand*='hand-bottom']" ).droppable("disable");
-
-			bottomRight.number=$(ui.draggable).data("number")+bottomRight.number;
-			bottomRight.name=bottomRight.name.replace(/.$/,bottomRight.number);
-			
-			if (bottomRight.number>4)
-			{
-				bottomRight.number=bottomRight.number-5;
-				bottomRight.name=bottomRight.name.replace(/.$/,bottomRight.number);
-			}
-			
-			$(this).fadeOut(function()
-			{
-					$("[data-hand='"+bottomRight.name+"']").show();
-			});
-		}
-	});
-	
-$( "[data-hand*='hand-bottom-left']" ).droppable
-	({
-		accept: "[data-hand*='hand-up']",
-		drop: function(event, ui)
-		{
-			$( "[data-hand*='hand-up']" ).droppable("enable");
-			$( "[data-hand*='hand-bottom']" ).droppable("disable");
-
-			bottomLeft.number=$(ui.draggable).data("number")+bottomLeft.number;
-			bottomLeft.name=bottomLeft.name.replace(/.$/,bottomLeft.number);
-			
-			if (bottomLeft.number>4)
-			{
-				bottomLeft.number=bottomLeft.number-5;
-				bottomLeft.name=bottomLeft.name.replace(/.$/,bottomLeft.number);
-			}
-			
-			$(this).fadeOut(function()
-			{
-					$("[data-hand='"+bottomLeft.name+"']").show();
-			});
-		}
-	});
-	
-	*/
