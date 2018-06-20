@@ -101,6 +101,7 @@ $( "[data-hand*='hand-up']" ).droppable("disable");
 		}
 	
 
+
 	function draggableUpdate(reciver)
 	{
 		if (reciver.side==1)
@@ -134,11 +135,12 @@ $( "[data-hand*='hand-up']" ).droppable("disable");
 			}
 		}
 	}		
-	
+
 	
 	function check()
 		{
 			if(upRight.number==0&&upLeft.number==0)
+
 			{$("#annText").html("המשחק נגמר!<br>המנצח הוא "+player2 );
 				$("#announcement").css("visibility","visible");
 			}
@@ -146,3 +148,4 @@ $( "[data-hand*='hand-up']" ).droppable("disable");
 				{$("#annText").html("המשחק נגמר!<br>המנצח הוא "+player1 );
 				$("#announcement").css("visibility","visible");}
 		};	
+
