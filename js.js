@@ -1,17 +1,30 @@
-
-//$( document ).click(function() {
- // $( "img" ).toggle( "fade" );
-//});
 var upRight={name:"hand-up-right-1",number:1,side:1};
 var upLeft={name:"hand-up-left-1",number:1,side:1};
 var bottomRight={name:"hand-bottom-right-1",number:1,side:2};
 var bottomLeft={name:"hand-bottom-left-1",number:1,side:2};
+
+
+var handsMap = {
+1: upRight,
+2: upLeft,
+3: bottomLeft,
+4: bottomRight
+}
 
 		var player1;
 		var player2;
 
 $( document ).ready(function() {
   $(".hide").hide();
+});
+
+$(document).keypress(function(e) {
+    if(e.which == 13) {
+        player1=$("#player1").val();
+			player2=$("#player2").val();
+			console.log(player1);	
+			//$("#announcement").css("visibility","hidden");
+    }
 });
 
 $("#btn2p").click(function(){
@@ -23,114 +36,51 @@ $("#btn2p").click(function(){
 
 
 $("[data-hand*='hand']" ).draggable({
-	revert: true,
-	stack: "[data-hand*='hand']"
-	
-	});
-	
-$("[data-hand*='0']").draggable("disable");
-$( "[data-hand*='hand-up']" ).droppable();
-$( "[data-hand*='hand-bottom']" ).droppable();
-$( "[data-hand*='hand-up']" ).droppable("disable");
-$("[data-hand*='0']").droppable
-({
+	revert: true
 	});
 
 $( "[data-hand*='hand']" ).droppable
 ({
-	//accept: "[data-hand*='hand-bottom']",
+	
 		drop: function(event, ui)
 		{
 				var here=$(this).data("id");
 				var coming= $(ui.draggable).data("id");
 			
-			if(here=="1"&&coming=="4")
-			{
-					upRight=whenDropped(upRight,bottomRight)
-			}		
-			if(here=="1"&&coming=="3")
-			{
-					upRight=whenDropped(upRight,bottomLeft)
-			}
-			if(here=="2"&&coming=="4")
-			{
-					upLeft=whenDropped(upLeft,bottomRight)
-			}if(here=="2"&&coming=="3")
-			{
-					upLeft=whenDropped(upLeft,bottomLeft)
-			}if(here=="3"&&coming=="2")
-			{
-					bottomLeft=whenDropped(bottomLeft,upLeft)
-			}if(here=="3"&&coming=="1")
-			{
-					bottomLeft=whenDropped(bottomLeft,upRight)
-			}if(here=="4"&&coming=="2")
-			{
-					bottomRight=whenDropped(bottomRight,upLeft)
-			}if(here=="4"&&coming=="1")
-			{
-					bottomRight=whenDropped(bottomRight,upRight)
-			}
-			
-			if(here=="1"&&coming=="2"||here=="2"&&coming=="1")
-			{
-					if($(ui.draggable).data("hand").search("2")>-1)
-					{
-						$( "[data-hand*='hand-up']" ).fadeOut();
-						$( "[data-hand*='hand-up-right-1']" ).show();
-						$( "[data-hand*='hand-up-left-1']" ).show();
-						upLeft.number=upRight.number=1;
-					
-					}
-					if($(ui.draggable).data("hand").search("4")>-1)
-					{
-						$( "[data-hand*='hand-up']" ).fadeOut();
-						$( "[data-hand*='hand-up-right-2']" ).show();
-						$( "[data-hand*='hand-up-left-2']" ).show();
-						upLeft.number=upRight.number=2;
-						
-					}
-					
-			if(here=="3"&&coming=="4"||here=="4"&&coming=="3")
-			{
-					if($(ui.draggable).data("hand").search("2")>-1)
-					{
-						$( "[data-hand*='hand-bottom']" ).fadeOut();
-						$( "[data-hand*='hand-bottom-right-1']" ).show();
-						$( "[data-hand*='hand-bottom-left-1']" ).show();
-						
-						bottomLeft.number=bottomRight.number=1;
-					}
-					if($(ui.draggable).data("hand").search("4")>-1)
-					{
-						$( "[data-hand*='hand-bottom']" ).fadeOut();
-						$( "[data-hand*='hand-bottom-right-2']" ).show();
-						$( "[data-hand*='hand-bottom-left-2']" ).show();
-						bottomLeft.number=bottomRight.number=2;
-						
-					}
-			}
-		}
-		
-			
+			handsMap[here] = whenDropped(handsMap[here], handsMap[coming],here,coming);
+			draggableUpdate(handsMap[here]);
 			check();
 		}
 	});
 	
-	function whenDropped(reciver, dragged)
+$("[data-hand*='0']").draggable("disable");
+$( "[data-hand*='hand-up']" ).droppable("disable");
+	
+	function whenDropped(reciver, dragged,here,coming)
 	{
-		if (reciver.side==1)
+		if (reciver.side==dragged.side)
 		{
-			$( "[data-hand*='hand-up']" ).droppable("disable");
-			$( "[data-hand*='hand-bottom']" ).droppable("enable");
-			$( "[data-hand*='0']" ).droppable("enable");
+			var now=reciver.name;
+			
+			reciver.number=dragged.number/2;
+			reciver.name=reciver.name.replace(/.$/,reciver.number);
+								
+			$("[data-hand='"+now+"']").fadeOut(function()
+			{
+					$("[data-hand='"+reciver.name+"']").show();
+			});
+			
+			handsMap[coming].number=dragged.number/2;
+			handsMap[coming].name=handsMap[coming].name.replace(/.$/,reciver.number);
+			$("[data-hand='"+dragged.name+"']").fadeOut(function()
+			{
+					$("[data-hand='"+handsMap[coming].name+"']").show();
+					$("[data-hand='"+dragged.name+"']").hide();
+			});
+			return reciver;
 		}
-		else
-		{
-			$( "[data-hand*='hand-up']" ).droppable("enable");
-			$( "[data-hand*='hand-bottom']" ).droppable("disable");
-			$( "[data-hand*='0']" ).droppable("enable");
-		}
+			
+		
 			var now=reciver.name;
 			
 			reciver.number=dragged.number+reciver.number;
@@ -149,6 +99,41 @@ $( "[data-hand*='hand']" ).droppable
 			
 		}
 	
+
+	function draggableUpdate(reciver)
+	{
+		if (reciver.side==1)
+		{
+			$( "[data-hand*='hand-up']" ).droppable("disable");
+			$( "[data-hand*='hand-bottom']" ).droppable("enable");
+		}
+		else
+		{
+			$( "[data-hand*='hand-up']" ).droppable("enable");
+			$( "[data-hand*='hand-bottom']" ).droppable("disable");
+		}
+		zeroUpdate();				
+	}
+	
+	function zeroUpdate()
+	{
+		for(i=1;i<5;i++)
+		{
+			if(handsMap[i].number==0)
+			{
+						var other=(i==1? 2:i==2? 1: i==3? 4:3);
+						zero=handsMap[i].name.substr(0,handsMap[i].name.length-1)+"0";
+						acceptHand=handsMap[other].name.substr(0,handsMap[i].name.length);
+						acceptHand2=acceptHand+"2";
+						acceptHand4=acceptHand+"4";
+				$(zero).droppable
+				("enable",{
+					accept: acceptHand2+","+acceptHand4
+				});
+			}
+		}
+	}		
+	
 	
 	function check()
 		{
@@ -159,80 +144,4 @@ $( "[data-hand*='hand']" ).droppable
 			if(bottomRight.number==0&&bottomLeft.number==0)
 				{$("#annText").html("המשחק נגמר!<br>המנצח הוא "+player1 );
 				$("#announcement").css("visibility","visible");}
-		};
-		
-		
-	
-/*$( "[data-hand*='hand-up-left']" ).droppable
-	({
-		accept: "[data-hand*='hand-bottom']",
-		drop: function(event, ui)
-		{
-			$( "[data-hand*='hand-bottom']" ).droppable("enable");
-			$( "[data-hand*='hand-up']" ).droppable("disable");
-
-			upLeft.number=$(ui.draggable).data("number")+upLeft.number;
-			upLeft.name=upLeft.name.replace(/.$/,upLeft.number);
-			
-			if (upLeft.number>4)
-			{
-				upLeft.number=upLeft.number-5;
-				upLeft.name=upLeft.name.replace(/.$/,upLeft.number);
-			}
-			
-			$(this).fadeOut(function()
-			{
-					$("[data-hand='"+upLeft.name+"']").show();
-			});
-		}
-	});
-	
-$( "[data-hand*='hand-bottom-right']" ).droppable
-	({
-		accept: "[data-hand*='hand-up']",
-		drop: function(event, ui)
-		{
-			$( "[data-hand*='hand-up']" ).droppable("enable");
-			$( "[data-hand*='hand-bottom']" ).droppable("disable");
-
-			bottomRight.number=$(ui.draggable).data("number")+bottomRight.number;
-			bottomRight.name=bottomRight.name.replace(/.$/,bottomRight.number);
-			
-			if (bottomRight.number>4)
-			{
-				bottomRight.number=bottomRight.number-5;
-				bottomRight.name=bottomRight.name.replace(/.$/,bottomRight.number);
-			}
-			
-			$(this).fadeOut(function()
-			{
-					$("[data-hand='"+bottomRight.name+"']").show();
-			});
-		}
-	});
-	
-$( "[data-hand*='hand-bottom-left']" ).droppable
-	({
-		accept: "[data-hand*='hand-up']",
-		drop: function(event, ui)
-		{
-			$( "[data-hand*='hand-up']" ).droppable("enable");
-			$( "[data-hand*='hand-bottom']" ).droppable("disable");
-
-			bottomLeft.number=$(ui.draggable).data("number")+bottomLeft.number;
-			bottomLeft.name=bottomLeft.name.replace(/.$/,bottomLeft.number);
-			
-			if (bottomLeft.number>4)
-			{
-				bottomLeft.number=bottomLeft.number-5;
-				bottomLeft.name=bottomLeft.name.replace(/.$/,bottomLeft.number);
-			}
-			
-			$(this).fadeOut(function()
-			{
-					$("[data-hand='"+bottomLeft.name+"']").show();
-			});
-		}
-	});
-	
-	*/
+		};	
