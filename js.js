@@ -59,26 +59,27 @@ $( "[data-hand*='hand-up']" ).droppable("disable");
 	function whenDropped(reciver, dragged,here,coming)
 	{
 		if (reciver.side==dragged.side)
-		{
-			var now=reciver.name;
-			
-			reciver.number=dragged.number/2;
-			reciver.name=reciver.name.replace(/.$/,reciver.number);
-								
-			$("[data-hand='"+now+"']").fadeOut(function()
+			if (reciver.number==0)
 			{
-					$("[data-hand='"+reciver.name+"']").show();
-			});
-			
-			handsMap[coming].number=dragged.number/2;
-			handsMap[coming].name=handsMap[coming].name.replace(/.$/,reciver.number);
-			$("[data-hand='"+dragged.name+"']").fadeOut(function()
-			{
-					$("[data-hand='"+handsMap[coming].name+"']").show();
-					$("[data-hand='"+dragged.name+"']").hide();
-			});
-			return reciver;
-		}
+				var now=reciver.name;
+				
+				reciver.number=dragged.number/2;
+				reciver.name=reciver.name.replace(/.$/,reciver.number);
+									
+				$("[data-hand='"+now+"']").fadeOut(function()
+				{
+						$("[data-hand='"+reciver.name+"']").show();
+				});
+				
+				handsMap[coming].number=dragged.number/2;
+				handsMap[coming].name=handsMap[coming].name.replace(/.$/,reciver.number);
+				$("[data-hand='"+dragged.name+"']").fadeOut(function()
+				{
+						$("[data-hand='"+handsMap[coming].name+"']").show();
+						$("[data-hand='"+dragged.name+"']").hide();
+				});
+				return reciver;
+			}
 			
 		
 			var now=reciver.name;
