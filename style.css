@@ -1,2 +1,27 @@
-
-
+body{
+	direction: rtl;
+	font: bold 50px Arial;
+}
+#announcement
+{
+	display: table;
+	position: absolute;
+	height:75%;
+	width:75%;
+	background-color: #5D5092;
+	left:12.5%;
+	top: 12.5%;
+	border-radius:20%;
+	 z-index:1000;
+}
+#annText{
+	display: table-cell;
+	vertical-align: middle;
+	text-align:center;
+	
+}
+img
+{
+	height:300;
+	width:250;
+}
