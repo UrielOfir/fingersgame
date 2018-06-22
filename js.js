@@ -128,7 +128,9 @@ $( "[data-hand*='hand-up']" ).droppable("disable");
 						acceptHand2=acceptHand+"2";
 						acceptHand4=acceptHand+"4";
 				$(zero).droppable
-				("enable");
+				("enable"),{
+				accept: "[data-hand*='"+acceptHand2+"'],[data-hand*='"+acceptHand4+"']"
+				}
 			}
 		}
 	}		
