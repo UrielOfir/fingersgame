@@ -41,7 +41,6 @@ $("[data-hand*='hand']" ).draggable({
 
 $( "[data-hand*='hand']" ).droppable
 ({
-	
 		drop: function(event, ui)
 		{
 				var here=$(this).data("id");
@@ -59,7 +58,7 @@ $( "[data-hand*='hand-up']" ).droppable("disable");
 	function whenDropped(reciver, dragged,here,coming)
 	{
 		if (reciver.side==dragged.side)
-			if (reciver.number==0)
+		{if (reciver.number==0)
 			{
 				var now=reciver.name;
 				
@@ -78,10 +77,11 @@ $( "[data-hand*='hand-up']" ).droppable("disable");
 						$("[data-hand='"+handsMap[coming].name+"']").show();
 						$("[data-hand='"+dragged.name+"']").hide();
 				});
-				return reciver;
 			}
-			
-		
+			return reciver;
+		}	
+		else
+		{
 			var now=reciver.name;
 			
 			reciver.number=dragged.number+reciver.number;
@@ -97,10 +97,9 @@ $( "[data-hand*='hand-up']" ).droppable("disable");
 					$("[data-hand='"+reciver.name+"']").show();
 			});
 			return reciver;
-			
-		}
+		}	
+	}
 	
-
 
 	function draggableUpdate(reciver)
 	{
@@ -129,18 +128,15 @@ $( "[data-hand*='hand-up']" ).droppable("disable");
 						acceptHand2=acceptHand+"2";
 						acceptHand4=acceptHand+"4";
 				$(zero).droppable
-				("enable",{
-					accept: acceptHand2+","+acceptHand4
-				});
+				("enable");
 			}
 		}
 	}		
-
+	
 	
 	function check()
 		{
 			if(upRight.number==0&&upLeft.number==0)
-
 			{$("#annText").html("המשחק נגמר!<br>המנצח הוא "+player2 );
 				$("#announcement").css("visibility","visible");
 			}
@@ -148,4 +144,3 @@ $( "[data-hand*='hand-up']" ).droppable("disable");
 				{$("#annText").html("המשחק נגמר!<br>המנצח הוא "+player1 );
 				$("#announcement").css("visibility","visible");}
 		};	
-
