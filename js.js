@@ -20,10 +20,10 @@ $( document ).ready(function() {
 
 $(document).keypress(function(e) {
     if(e.which == 13) {
-        player1=$("#player1").val();
-			player2=$("#player2").val();
-			console.log(player1);	
-			//$("#announcement").css("visibility","hidden");
+	player1=$("#player1").val();
+	player2=$("#player2").val();
+	$("#announcement").css("visibility","hidden");
+
     }
 });
 
